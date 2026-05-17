@@ -3,6 +3,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "items_carrito")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ItemCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

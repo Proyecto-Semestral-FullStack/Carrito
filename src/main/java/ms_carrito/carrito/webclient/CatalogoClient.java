@@ -3,7 +3,8 @@ package ms_carrito.carrito.webclient;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
@@ -14,7 +15,8 @@ import java.math.BigDecimal;
 public class CatalogoClient {
     private final WebClient webClient;
 
-    public CatalogoClient(@Value("${catalogo.service.url}") String catalogoUrl) {
+    public CatalogoClient(@LoadBalanced WebClient.Builder webClientBuilder,
+                          @Value("${catalogo.service.url}") String catalogoUrl) {
         this.webClient = WebClient.builder().baseUrl(catalogoUrl).build();
     }
 

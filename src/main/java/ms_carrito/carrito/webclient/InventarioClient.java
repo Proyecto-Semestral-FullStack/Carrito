@@ -1,6 +1,7 @@
 package ms_carrito.carrito.webclient;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -16,8 +17,9 @@ import java.util.Map;
 public class InventarioClient {
     private final WebClient webClient;
 
-    public InventarioClient(@Value("${inventario.service.url}") String inventarioUrl) {
-        this.webClient = WebClient.builder().baseUrl(inventarioUrl).build();
+    public InventarioClient(@LoadBalanced WebClient.Builder webClientBuilder,
+                            @Value("${inventario.service.url}") String inventarioUrl) {
+        this.webClient = webClientBuilder.baseUrl(inventarioUrl).build();
     }
 
     /**

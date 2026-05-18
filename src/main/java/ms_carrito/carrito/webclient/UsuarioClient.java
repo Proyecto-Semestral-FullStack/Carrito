@@ -2,6 +2,7 @@ package ms_carrito.carrito.webclient;
 import ms_carrito.carrito.exception.RecursoNoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,8 +15,8 @@ public class UsuarioClient {
 
     private final WebClient webClient;
 
-    public UsuarioClient(@Value("${usuario.service.url}") String usuarioUrl) {
-        this.webClient = WebClient.builder().baseUrl(usuarioUrl).build();
+    public UsuarioClient(@LoadBalanced WebClient.Builder webClientBuilder, @Value("${usuario.service.url}") String usuarioUrl) {
+        this.webClient = webClientBuilder.baseUrl(usuarioUrl).build();
     }
 
     public void validarUsuario(Long usuarioId) {

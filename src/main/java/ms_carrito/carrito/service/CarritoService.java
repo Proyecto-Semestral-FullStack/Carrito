@@ -54,6 +54,8 @@ public class CarritoService {
                     Carrito nuevo = Carrito.builder()
                             .usuarioId(usuarioId)
                             .estado(Carrito.EstadoCarrito.ACTIVO)
+                            .creadoEn(LocalDateTime.now())      //
+                            .actualizadoEn(LocalDateTime.now())
                             .build();
                     return carritoRepository.save(nuevo);
                 });

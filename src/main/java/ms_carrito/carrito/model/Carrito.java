@@ -34,7 +34,9 @@ public class Carrito {
     @Column(name = "actualizado_en", nullable = false)
     private LocalDateTime actualizadoEn = LocalDateTime.now();
 
+
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<ItemCarrito> items = new ArrayList<>();
 
     public enum EstadoCarrito { ACTIVO, PROCESADO, ABANDONADO }}

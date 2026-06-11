@@ -17,7 +17,7 @@ public class CatalogoClient {
 
     public CatalogoClient(@LoadBalanced WebClient.Builder webClientBuilder,
                           @Value("${catalogo.service.url}") String catalogoUrl) {
-        this.webClient = WebClient.builder().baseUrl(catalogoUrl).build();
+        this.webClient = webClientBuilder.baseUrl(catalogoUrl).build();
     }
 
     public CatalogoProductoInfo obtenerProducto(Long productoId) {

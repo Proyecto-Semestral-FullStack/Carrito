@@ -22,7 +22,7 @@ public class UsuarioClient {
     public void validarUsuario(Long usuarioId) {
         try {
             webClient.get()
-                    .uri("/api/usuarios/{id}", usuarioId)
+                    .uri("/api/usuarios/id/{id}", usuarioId)
                     .retrieve()
                     .onStatus(status -> status.is4xxClientError(),
                             clientResponse -> { throw new RecursoNoEncontradoException("Usuario no encontrado: " + usuarioId); })

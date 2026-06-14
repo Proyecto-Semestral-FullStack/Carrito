@@ -1,23 +1,21 @@
-spring.application.name=ms-carrito
+spring:
+  application:
+    name: ms-carrito
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_carrito
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
 
-server.port=8084
+server:
+  port: 8084
 
-spring.datasource.url=jdbc:mysql://localhost:3306/db_carrito
-spring.datasource.username=root
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
-
-
-# 2. Agrega la direccion de Eureka
-eureka.client.service-url.defaultZone=http://localhost:8761/eureka
-
-
-# 3. (Opcional) Frecuencia de envío de latidos (util en desarrollo)
-eureka.instance.lease-renewal-interval-in-seconds=10
-eureka.instance.lease-expiration-duration-in-seconds=30
-
-
-# URLs de otros microservicios (ahora balanceadas por Eureka)
-usuario.service.url=lb://ms-usuarios
-catalogo.service.url=lb://ms-catalogo
-inventario.service.url=lb://ms-inventario
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30

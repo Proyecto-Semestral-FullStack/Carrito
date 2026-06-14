@@ -31,7 +31,5 @@ public class ItemCarrito {
     @Column(name = "precio_unitario", nullable = false, precision = 10, scale = 2)
     private BigDecimal precioUnitario; // Snapshot
 
-    @Column(name = "agregado_en", nullable = false)
-    @Builder.Default
-    private LocalDateTime agregadoEn = LocalDateTime.now();
+
 }

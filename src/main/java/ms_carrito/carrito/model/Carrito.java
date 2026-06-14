@@ -28,12 +28,6 @@ public class Carrito {
     @Column(nullable = false)
     private EstadoCarrito estado = EstadoCarrito.ACTIVO;
 
-    @Column(name = "creado_en", nullable = false)
-    private LocalDateTime creadoEn = LocalDateTime.now();
-
-    @Column(name = "actualizado_en", nullable = false)
-    private LocalDateTime actualizadoEn = LocalDateTime.now();
-
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

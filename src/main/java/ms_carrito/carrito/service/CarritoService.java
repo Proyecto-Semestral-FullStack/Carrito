@@ -2,15 +2,15 @@ package ms_carrito.carrito.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ms_carrito.carrito.config.CatalogoClient;
+import ms_carrito.carrito.config.InventarioClient;
+import ms_carrito.carrito.config.UsuarioClient;
 import ms_carrito.carrito.dto.CarritoResponseDTO;
 import ms_carrito.carrito.dto.ItemCarritoRequestDTO;
 import ms_carrito.carrito.exception.RecursoNoEncontradoException;
 import ms_carrito.carrito.model.Carrito;
 import ms_carrito.carrito.model.ItemCarrito;
 import ms_carrito.carrito.repository.CarritoRepository;
-import ms_carrito.carrito.webclient.CatalogoClient;
-import ms_carrito.carrito.webclient.InventarioClient;
-import ms_carrito.carrito.webclient.UsuarioClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,9 +64,9 @@ public class CarritoService {
         ItemCarrito item = ItemCarrito.builder()
                 .carrito(carrito)
                 .productoId(dto.getProductoId())
-                .nombreProducto(info.nombre())
+                .nombreProducto(info.getNombre())
                 .cantidad(dto.getCantidad())
-                .precioUnitario(info.precio())
+                .precioUnitario(info.getPrecio())
                 .build();
 
         carrito.getItems().add(item);

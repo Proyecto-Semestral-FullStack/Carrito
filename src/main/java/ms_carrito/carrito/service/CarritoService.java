@@ -54,8 +54,6 @@ public class CarritoService {
                     Carrito nuevo = Carrito.builder()
                             .usuarioId(usuarioId)
                             .estado(Carrito.EstadoCarrito.ACTIVO)
-                            .creadoEn(LocalDateTime.now())      //
-                            .actualizadoEn(LocalDateTime.now())
                             .build();
                     return carritoRepository.save(nuevo);
                 });
@@ -70,7 +68,6 @@ public class CarritoService {
                 .build();
 
         carrito.getItems().add(item);
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
 
         log.info("Producto agregado al carrito: usuario={}, producto={}", usuarioId, dto.getProductoId());
@@ -80,7 +77,6 @@ public class CarritoService {
     public CarritoResponseDTO quitarItem(Long usuarioId, Long itemId) {
         Carrito carrito = obtenerCarritoActivo(usuarioId);
         carrito.getItems().removeIf(item -> item.getId().equals(itemId));
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
         return convertirADto(carrito);
     }
@@ -88,7 +84,6 @@ public class CarritoService {
     public void vaciarCarrito(Long usuarioId) {
         Carrito carrito = obtenerCarritoActivo(usuarioId);
         carrito.getItems().clear();
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
     }
 
@@ -119,7 +114,6 @@ public class CarritoService {
                 .estado(carrito.getEstado().name())
                 .items(items)
                 .total(total)
-                .actualizadoEn(carrito.getActualizadoEn())
                 .build();
     }
 

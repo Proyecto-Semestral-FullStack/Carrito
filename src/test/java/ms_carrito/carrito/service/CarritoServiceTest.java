@@ -39,8 +39,7 @@ import static org.mockito.Mockito.*;
  * - Mocking completo de dependencias
  * - Validación de excepciones, valores y comportamiento
  *
- * @author Arquitecto de Software Senior
- * @version 1.0
+ *
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("CarritoService - Suite de Pruebas Unitarias")

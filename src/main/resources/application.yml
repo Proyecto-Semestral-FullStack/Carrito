@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: ms-carrito
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_carrito
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8084
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+usuario:
+  service:
+    url: lb://ms-usuarios
+
+catalogo:
+  service:
+    url: lb://ms-catalogo
+
+inventario:
+  service:
+    url: lb://ms-inventario
+
+springdoc:
+  api-docs:
+    enabled: true
+
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html

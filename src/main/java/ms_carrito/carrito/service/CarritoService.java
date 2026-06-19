@@ -2,15 +2,15 @@ package ms_carrito.carrito.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ms_carrito.carrito.config.CatalogoClient;
+import ms_carrito.carrito.config.InventarioClient;
+import ms_carrito.carrito.config.UsuarioClient;
 import ms_carrito.carrito.dto.CarritoResponseDTO;
 import ms_carrito.carrito.dto.ItemCarritoRequestDTO;
 import ms_carrito.carrito.exception.RecursoNoEncontradoException;
 import ms_carrito.carrito.model.Carrito;
 import ms_carrito.carrito.model.ItemCarrito;
 import ms_carrito.carrito.repository.CarritoRepository;
-import ms_carrito.carrito.webclient.CatalogoClient;
-import ms_carrito.carrito.webclient.InventarioClient;
-import ms_carrito.carrito.webclient.UsuarioClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,13 +62,12 @@ public class CarritoService {
         ItemCarrito item = ItemCarrito.builder()
                 .carrito(carrito)
                 .productoId(dto.getProductoId())
-                .nombreProducto(info.nombre())
+                .nombreProducto(info.getNombre())
                 .cantidad(dto.getCantidad())
-                .precioUnitario(info.precio())
+                .precioUnitario(info.getPrecio())
                 .build();
 
         carrito.getItems().add(item);
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
 
         log.info("Producto agregado al carrito: usuario={}, producto={}", usuarioId, dto.getProductoId());
@@ -78,7 +77,6 @@ public class CarritoService {
     public CarritoResponseDTO quitarItem(Long usuarioId, Long itemId) {
         Carrito carrito = obtenerCarritoActivo(usuarioId);
         carrito.getItems().removeIf(item -> item.getId().equals(itemId));
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
         return convertirADto(carrito);
     }
@@ -86,7 +84,6 @@ public class CarritoService {
     public void vaciarCarrito(Long usuarioId) {
         Carrito carrito = obtenerCarritoActivo(usuarioId);
         carrito.getItems().clear();
-        carrito.setActualizadoEn(LocalDateTime.now());
         carritoRepository.save(carrito);
     }
 
@@ -117,7 +114,6 @@ public class CarritoService {
                 .estado(carrito.getEstado().name())
                 .items(items)
                 .total(total)
-                .actualizadoEn(carrito.getActualizadoEn())
                 .build();
     }
 

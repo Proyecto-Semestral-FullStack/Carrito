@@ -1,11 +1,11 @@
 package ms_carrito.carrito.exception;
 
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -45,15 +45,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
-    // 4. Errores de comunicación con otros microservicios (502 Bad Gateway)
-    @ExceptionHandler(WebClientResponseException.class)
-    public ResponseEntity<ErrorResponse> manejarErrorWebClient(WebClientResponseException ex) {
+
+// 4. Errores al llamar a otros microservicios con Feign → código del servicio remoto
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorResponse> manejarErrorFeign(FeignException ex) {
+        HttpStatus status = HttpStatus.resolve(ex.status());
+        if (status == null) status = HttpStatus.INTERNAL_SERVER_ERROR;
+
         ErrorResponse error = new ErrorResponse(
-                HttpStatus.BAD_GATEWAY.value(),
-                "Error al comunicarse con el servicio externo: " + ex.getMessage(),
+                ex.status(),
+                "Error al comunicarse con un servicio externo: " + ex.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(error, HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>(error, status);
     }
 
     // 5. Errores genéricos de comunicación (RuntimeException del WebClient)
